@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic
-Imports System
+﻿Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Web
@@ -9,23 +8,24 @@ Imports DevExpress.Web.ASPxEditors
 Imports System.Web.Security
 
 Partial Public Class _Default
-	Inherits System.Web.UI.Page
-	Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
 
 
-	End Sub
+    End Sub
 
-	Protected Sub login_LoginError(ByVal sender As Object, ByVal e As EventArgs)
-		' Define the name and type of the client scripts on the page.
-		Dim csErrorRowName As String = "errorRowScript"
-		Dim cstype As Type = Me.GetType()
+    Protected Sub login_LoginError(ByVal sender As Object, ByVal e As EventArgs)
+        ' Define the name and type of the client scripts on the page.
+        Dim csErrorRowName As String = "errorRowScript"
+        Dim cstype As Type = Me.GetType()
 
-		' Get a ClientScriptManager reference from the Page class.
-		Dim cs As ClientScriptManager = Page.ClientScript
+        ' Get a ClientScriptManager reference from the Page class.
+        Dim cs As ClientScriptManager = Page.ClientScript
 
-		' Check to see if the startup script is already registered.
-		If (Not cs.IsStartupScriptRegistered(cstype, csErrorRowName)) Then
-			cs.RegisterStartupScript(cstype, csErrorRowName, "document.getElementById(""errorRow"").style.display=""block"";", True)
-		End If
-	End Sub
+        ' Check to see if the startup script is already registered.
+        If Not cs.IsStartupScriptRegistered(cstype, csErrorRowName) Then
+            cs.RegisterStartupScript(cstype, csErrorRowName, "document.getElementById(""errorRow"").style.display=""block"";", True)
+        End If
+    End Sub
 End Class

@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic
-Imports System
+﻿Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Web
@@ -8,33 +7,32 @@ Imports System.Web.UI.WebControls
 Imports System.Web.Security
 
 Partial Public Class NewAccount
-	Inherits System.Web.UI.Page
-	Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
+    Inherits System.Web.UI.Page
 
-	End Sub
-	Protected Sub CreateUser_CreateUserError(ByVal sender As Object, ByVal e As CreateUserErrorEventArgs)
-		' Define the name and type of the client scripts on the page.
-		Dim csErrorRowName As String = "errorRowScript"
-		Dim cstype As Type = Me.GetType()
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
 
-		' Get a ClientScriptManager reference from the Page class.
-		Dim cs As ClientScriptManager = Page.ClientScript
+    End Sub
+    Protected Sub CreateUser_CreateUserError(ByVal sender As Object, ByVal e As CreateUserErrorEventArgs)
+        ' Define the name and type of the client scripts on the page.
+        Dim csErrorRowName As String = "errorRowScript"
+        Dim cstype As Type = Me.GetType()
 
-		' Check to see if the startup script is already registered.
-		If (Not cs.IsStartupScriptRegistered(cstype, csErrorRowName)) Then
-			cs.RegisterStartupScript(cstype, csErrorRowName, "document.getElementById(""errorRow"").style.display=""block"";", True)
-		End If
-	End Sub
+        ' Get a ClientScriptManager reference from the Page class.
+        Dim cs As ClientScriptManager = Page.ClientScript
 
-	Protected Sub CreateUser_ContinueButtonClick(ByVal sender As Object, ByVal e As EventArgs)
-'INSTANT VB NOTE: Embedded comments are not maintained by Instant VB
-'ORIGINAL LINE: FormsAuthentication.SetAuthCookie(CreateUser.UserName, false /* createPersistentCookie */);
-		FormsAuthentication.SetAuthCookie(CreateUser.UserName, False)
+        ' Check to see if the startup script is already registered.
+        If Not cs.IsStartupScriptRegistered(cstype, csErrorRowName) Then
+            cs.RegisterStartupScript(cstype, csErrorRowName, "document.getElementById(""errorRow"").style.display=""block"";", True)
+        End If
+    End Sub
 
-		Dim continueUrl As String = CreateUser.ContinueDestinationPageUrl
-		If String.IsNullOrEmpty(continueUrl) Then
-			continueUrl = "~/"
-		End If
-		Response.Redirect(continueUrl)
-	End Sub
+    Protected Sub CreateUser_ContinueButtonClick(ByVal sender As Object, ByVal e As EventArgs)
+        FormsAuthentication.SetAuthCookie(CreateUser.UserName, False)
+
+        Dim continueUrl As String = CreateUser.ContinueDestinationPageUrl
+        If String.IsNullOrEmpty(continueUrl) Then
+            continueUrl = "~/"
+        End If
+        Response.Redirect(continueUrl)
+    End Sub
 End Class
