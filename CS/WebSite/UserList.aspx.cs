@@ -14,11 +14,11 @@ public partial class Default2 : System.Web.UI.Page {
     protected void Page_Init(object sender, EventArgs e) {
         xpoUsers.Session = session;
     }
-    protected void gvUsers_CustomColumnDisplayText(object sender, DevExpress.Web.ASPxGridView.ASPxGridViewColumnDisplayTextEventArgs e) {
+    protected void gvUsers_CustomColumnDisplayText(object sender, DevExpress.Web.ASPxGridViewColumnDisplayTextEventArgs e) {
         if (RestrictedFields.Contains(e.Column.FieldName))
             e.DisplayText = "********";
     }
-    protected void gvUsers_HtmlDataCellPrepared(object sender, DevExpress.Web.ASPxGridView.ASPxGridViewTableDataCellEventArgs e) {
+    protected void gvUsers_HtmlDataCellPrepared(object sender, DevExpress.Web.ASPxGridViewTableDataCellEventArgs e) {
         if (RestrictedFields.Contains(e.DataColumn.FieldName))
             e.Cell.ForeColor = System.Drawing.Color.Red;
     }

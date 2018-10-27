@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="NewAccount.aspx.cs" Inherits="NewAccount" %>
+﻿<%@ Page Language="vb" AutoEventWireup="true" CodeFile="NewAccount.aspx.vb" Inherits="NewAccount" %>
 
 <%@ Register Assembly="DevExpress.Web.v18.2, Version=18.2.2.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web" TagPrefix="dx" %>
@@ -14,7 +14,7 @@
             background-color: #EEE;">
             <asp:CreateUserWizard ID="CreateUser" runat="server" OnCreateUserError="CreateUser_CreateUserError"
                 OnContinueButtonClick="CreateUser_ContinueButtonClick" Width="100%">
-           
+
                 <WizardSteps>
                     <asp:CreateUserWizardStep runat="server">
                         <ContentTemplate>
@@ -141,7 +141,7 @@
                     </asp:CompleteWizardStep>
                 </WizardSteps>
             </asp:CreateUserWizard>
-          
+
         </div>
     </div>
     </form>

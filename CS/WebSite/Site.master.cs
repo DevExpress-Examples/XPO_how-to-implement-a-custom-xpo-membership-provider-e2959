@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Security;
-using DevExpress.Web.ASPxEditors;
-using DevExpress.Web.ASPxTreeView;
+using DevExpress.Web;
 
 public partial class Site : System.Web.UI.MasterPage {
     protected void Page_Load(object sender, EventArgs e) {

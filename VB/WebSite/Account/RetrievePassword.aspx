@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="RetrievePassword.aspx.cs"Inherits="Account_RetrievePassword" %>
+﻿<%@ Page Language="vb" AutoEventWireup="true" CodeFile="RetrievePassword.aspx.vb"Inherits="Account_RetrievePassword" %>
 
 <%@ Register Assembly="DevExpress.Web.v18.2, Version=18.2.2.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web" TagPrefix="dx" %>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using DevExpress.Web.ASPxEditors;
+using DevExpress.Web;
 using System.Web.Security;
 
 public partial class _Default : System.Web.UI.Page {

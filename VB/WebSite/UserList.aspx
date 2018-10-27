@@ -1,5 +1,5 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
-    CodeFile="UserList.aspx.cs" Inherits="Default2" %>
+﻿<%@ Page Title="" Language="vb" MasterPageFile="~/Site.master" AutoEventWireup="true"
+    CodeFile="UserList.aspx.vb" Inherits="Default2" %>
 
 <%@ Register Assembly="DevExpress.Web.v18.2, Version=18.2.2.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Web" TagPrefix="dx" %>
