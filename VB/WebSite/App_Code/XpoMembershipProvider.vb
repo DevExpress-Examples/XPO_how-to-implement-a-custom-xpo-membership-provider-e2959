@@ -1,15 +1,7 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Web
-Imports System.Web.Security
-Imports System.Web.Configuration
+﻿Imports System.Web.Configuration
 Imports System.Configuration.Provider
-Imports System.Configuration
 Imports DevExpress.Xpo
 Imports DevExpress.Data.Filtering
-Imports System.Text.RegularExpressions
-Imports System.Text
 Imports System.Security.Cryptography
 
 ''' <summary>

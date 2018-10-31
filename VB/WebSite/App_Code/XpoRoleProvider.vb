@@ -1,10 +1,4 @@
-﻿Imports System
-Imports System.Collections.Generic
-Imports System.Linq
-Imports System.Web
-Imports System.Web.Security
-Imports System.Configuration
-Imports System.Configuration.Provider
+﻿Imports System.Configuration.Provider
 Imports DevExpress.Xpo
 Imports DevExpress.Data.Filtering
 
@@ -184,7 +178,7 @@ Public NotInheritable Class XpoRoleProvider
         Dim roles() As String
 
         Using session As Session = XpoHelper.GetNewSession()
-            Dim xpvRoles As New XPView(session, GetType(XpoRole), New CriteriaOperatorCollection() From { OperandProperty.Parse("RoleName") }, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal))
+            Dim xpvRoles As New XPView(session, GetType(XpoRole), New CriteriaOperatorCollection() From {OperandProperty.Parse("RoleName")}, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal))
 
             Dim rolesList As New List(Of String)()
             For i As Integer = 0 To xpvRoles.Count - 1
@@ -204,7 +198,7 @@ Public NotInheritable Class XpoRoleProvider
         Dim roles() As String
 
         Using session As Session = XpoHelper.GetNewSession()
-            Dim xpvRoles As New XPView(session, GetType(XpoRole), New CriteriaOperatorCollection() From { OperandProperty.Parse("RoleName") }, New GroupOperator(GroupOperatorType.And, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal), New ContainsOperator("Users", New BinaryOperator("UserName", username, BinaryOperatorType.Equal))))
+            Dim xpvRoles As New XPView(session, GetType(XpoRole), New CriteriaOperatorCollection() From {OperandProperty.Parse("RoleName")}, New GroupOperator(GroupOperatorType.And, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal), New ContainsOperator("Users", New BinaryOperator("UserName", username, BinaryOperatorType.Equal))))
             Dim rolesList As New List(Of String)()
             For i As Integer = 0 To xpvRoles.Count - 1
                 rolesList.Add(xpvRoles(i)(0).ToString())
@@ -226,7 +220,7 @@ Public NotInheritable Class XpoRoleProvider
         Dim users() As String
 
         Using session As Session = XpoHelper.GetNewSession()
-            Dim xpvUsers As New XPView(session, GetType(XpoUser), New CriteriaOperatorCollection() From { OperandProperty.Parse("UserName") }, New GroupOperator(GroupOperatorType.And, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal), New ContainsOperator("Roles", New BinaryOperator("RoleName", roleName, BinaryOperatorType.Equal))))
+            Dim xpvUsers As New XPView(session, GetType(XpoUser), New CriteriaOperatorCollection() From {OperandProperty.Parse("UserName")}, New GroupOperator(GroupOperatorType.And, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal), New ContainsOperator("Roles", New BinaryOperator("RoleName", roleName, BinaryOperatorType.Equal))))
 
             Dim usersList As New List(Of String)()
             For i As Integer = 0 To xpvUsers.Count - 1
