@@ -106,7 +106,7 @@ Public NotInheritable Class XpoMembershipProvider
         machineKey = CType(cfg.GetSection("system.web/machineKey"), MachineKeySection)
 
         If machineKey.ValidationKey.Contains("AutoGenerate") Then
-            If PasswordFormat IsNot MembershipPasswordFormat.Clear Then
+            If PasswordFormat <> MembershipPasswordFormat.Clear Then
                 Throw New ProviderException("Hashed or Encrypted passwords are not supported with auto-generated keys.")
             End If
         End If
@@ -326,9 +326,10 @@ Public NotInheritable Class XpoMembershipProvider
         Dim mclUsers As New MembershipUserCollection()
 
         Using session As Session = XpoHelper.GetNewSession()
-            Dim xpcUsers As New XPCollection(Of XpoUser)(session, New GroupOperator(GroupOperatorType.And, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal), New BinaryOperator("Email", String.Format("%{0}%", emailToMatch), BinaryOperatorType.Like)), New SortProperty("UserName", DevExpress.Xpo.DB.SortingDirection.Ascending))
+            Dim theCriteria As CriteriaOperator = CriteriaOperator.Parse("ApplicationName = ? and contains(Email, ?)", ApplicationName, emailToMatch)
+            Dim xpcUsers As New XPCollection(Of XpoUser)(session, theCriteria, New SortProperty("UserName", DevExpress.Xpo.DB.SortingDirection.Ascending))
 
-            totalRecords = Convert.ToInt32(session.Evaluate(Of XpoUser)(CriteriaOperator.Parse("Count()"), New GroupOperator(GroupOperatorType.And, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal), New BinaryOperator("Email", String.Format("%{0}%", emailToMatch), BinaryOperatorType.Like))))
+            totalRecords = Convert.ToInt32(session.Evaluate(Of XpoUser)(CriteriaOperator.Parse("Count()"), theCriteria))
 
             xpcUsers.SkipReturnedObjects = pageIndex * pageSize
             xpcUsers.TopReturnedObjects = pageSize
@@ -348,9 +349,10 @@ Public NotInheritable Class XpoMembershipProvider
         Dim mclUsers As New MembershipUserCollection()
 
         Using session As Session = XpoHelper.GetNewSession()
-            Dim xpcUsers As New XPCollection(Of XpoUser)(session, New GroupOperator(GroupOperatorType.And, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal), New BinaryOperator("UserName", String.Format("%{0}%", usernameToMatch), BinaryOperatorType.Like)), New SortProperty("UserName", DevExpress.Xpo.DB.SortingDirection.Ascending))
+            Dim theCriteria As CriteriaOperator = CriteriaOperator.Parse("ApplicationName = ? and contains(UserName, ?)", ApplicationName, usernameToMatch)
+            Dim xpcUsers As New XPCollection(Of XpoUser)(session, theCriteria, New SortProperty("UserName", DevExpress.Xpo.DB.SortingDirection.Ascending))
 
-            totalRecords = Convert.ToInt32(session.Evaluate(Of XpoUser)(CriteriaOperator.Parse("Count()"), New GroupOperator(GroupOperatorType.And, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal), New BinaryOperator("UserName", String.Format("%{0}%", usernameToMatch), BinaryOperatorType.Like))))
+            totalRecords = Convert.ToInt32(session.Evaluate(Of XpoUser)(CriteriaOperator.Parse("Count()"), theCriteria))
 
             xpcUsers.SkipReturnedObjects = pageIndex * pageSize
             xpcUsers.TopReturnedObjects = pageSize
@@ -399,7 +401,7 @@ Public NotInheritable Class XpoMembershipProvider
             Throw New ProviderException("Password Retrieval Not Enabled.")
         End If
 
-        If PasswordFormat Is MembershipPasswordFormat.Hashed Then
+        If PasswordFormat = MembershipPasswordFormat.Hashed Then
             Throw New ProviderException("Cannot retrieve Hashed passwords.")
         End If
 
@@ -426,7 +428,7 @@ Public NotInheritable Class XpoMembershipProvider
             Throw New MembershipPasswordException("Incorrect password answer.")
         End If
 
-        If PasswordFormat Is MembershipPasswordFormat.Encrypted Then
+        If PasswordFormat = MembershipPasswordFormat.Encrypted Then
             password = DecodePassword(password)
         End If
 
