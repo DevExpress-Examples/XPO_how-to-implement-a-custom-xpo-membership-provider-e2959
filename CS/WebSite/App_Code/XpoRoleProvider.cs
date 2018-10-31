@@ -155,13 +155,8 @@ public sealed class XpoRoleProvider : RoleProvider {
             throw new ProviderException("Role does not exist.");
 
         using (Session session = XpoHelper.GetNewSession()) {
-            XPView xpvUsers = new XPView(session, typeof(XpoUser),
-                new CriteriaOperatorCollection() { OperandProperty.Parse("UserName") },
-                new GroupOperator(
-                    GroupOperatorType.And,
-                    new BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal),
-                    new BinaryOperator("UserName", String.Format("%{0}%", userNameToMatch), BinaryOperatorType.Like),
-                    new ContainsOperator("Roles", new BinaryOperator("RoleName", roleName, BinaryOperatorType.Equal))));
+            CriteriaOperator theCriteria = CriteriaOperator.Parse("ApplicationName = ? and contains(UserName, ?) and Roles[RoleName = ?]", ApplicationName, userNameToMatch, roleName);
+            XPView xpvUsers = new XPView(session, typeof(XpoUser), new CriteriaOperatorCollection() { OperandProperty.Parse("UserName") }, theCriteria);
 
             List<String> usersList = new List<String>();
             for (int i = 0; i < xpvUsers.Count; i++) {
