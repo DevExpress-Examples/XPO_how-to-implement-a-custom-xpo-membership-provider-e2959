@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Security;
 using System.Web.Configuration;
 using System.Configuration.Provider;
@@ -308,16 +305,11 @@ public sealed class XpoMembershipProvider : MembershipProvider {
         MembershipUserCollection mclUsers = new MembershipUserCollection();
 
         using (Session session = XpoHelper.GetNewSession()) {
-            XPCollection<XpoUser> xpcUsers = new XPCollection<XpoUser>(session,
-                new GroupOperator(GroupOperatorType.And,
-                    new BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal),
-                    new BinaryOperator("Email", String.Format("%{0}%", emailToMatch), BinaryOperatorType.Like)),
+            CriteriaOperator theCriteria = CriteriaOperator.Parse("ApplicationName = ? and contains(Email, ?)", ApplicationName, emailToMatch);
+            XPCollection<XpoUser> xpcUsers = new XPCollection<XpoUser>(session, theCriteria,
                     new SortProperty("UserName", DevExpress.Xpo.DB.SortingDirection.Ascending));
 
-            totalRecords = Convert.ToInt32(session.Evaluate<XpoUser>(CriteriaOperator.Parse("Count()"),
-                 new GroupOperator(GroupOperatorType.And,
-                    new BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal),
-                    new BinaryOperator("Email", String.Format("%{0}%", emailToMatch), BinaryOperatorType.Like))));
+            totalRecords = Convert.ToInt32(session.Evaluate<XpoUser>(CriteriaOperator.Parse("Count()"), theCriteria));
 
             xpcUsers.SkipReturnedObjects = pageIndex * pageSize;
             xpcUsers.TopReturnedObjects = pageSize;
@@ -337,16 +329,11 @@ public sealed class XpoMembershipProvider : MembershipProvider {
         MembershipUserCollection mclUsers = new MembershipUserCollection();
 
         using (Session session = XpoHelper.GetNewSession()) {
-            XPCollection<XpoUser> xpcUsers = new XPCollection<XpoUser>(session,
-                new GroupOperator(GroupOperatorType.And,
-                    new BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal),
-                    new BinaryOperator("UserName", String.Format("%{0}%", usernameToMatch), BinaryOperatorType.Like)),
+            CriteriaOperator theCriteria = CriteriaOperator.Parse("ApplicationName = ? and contains(UserName, ?)", ApplicationName, usernameToMatch);
+            XPCollection<XpoUser> xpcUsers = new XPCollection<XpoUser>(session, theCriteria,
                     new SortProperty("UserName", DevExpress.Xpo.DB.SortingDirection.Ascending));
 
-            totalRecords = Convert.ToInt32(session.Evaluate<XpoUser>(CriteriaOperator.Parse("Count()"),
-                 new GroupOperator(GroupOperatorType.And,
-                    new BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal),
-                    new BinaryOperator("UserName", String.Format("%{0}%", usernameToMatch), BinaryOperatorType.Like))));
+            totalRecords = Convert.ToInt32(session.Evaluate<XpoUser>(CriteriaOperator.Parse("Count()"), theCriteria));
 
             xpcUsers.SkipReturnedObjects = pageIndex * pageSize;
             xpcUsers.TopReturnedObjects = pageSize;
