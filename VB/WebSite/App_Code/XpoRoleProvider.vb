@@ -117,7 +117,7 @@ Public NotInheritable Class XpoRoleProvider
         CreateRole(roleName, String.Empty)
     End Sub
 
-    Public Sub CreateRole(ByVal roleName As String, ByVal description As String)
+    Public Overloads Sub CreateRole(ByVal roleName As String, ByVal description As String)
         If String.IsNullOrEmpty(roleName) Then
             Throw New ProviderException("Role name cannot be empty or null.")
         End If
@@ -132,10 +132,10 @@ Public NotInheritable Class XpoRoleProvider
         End If
 
         Using session As Session = XpoHelper.GetNewSession()
-            Dim role As New XpoRole(session) With { _
-                .RoleName = roleName, _
-                .ApplicationName = Me.ApplicationName, _
-                .Description = description _
+            Dim role As New XpoRole(session) With {
+                .RoleName = roleName,
+                .ApplicationName = Me.ApplicationName,
+                .Description = description
             }
             role.Save()
         End Using
@@ -167,7 +167,8 @@ Public NotInheritable Class XpoRoleProvider
         End If
 
         Using session As Session = XpoHelper.GetNewSession()
-            Dim xpvUsers As New XPView(session, GetType(XpoUser), New CriteriaOperatorCollection() From { OperandProperty.Parse("UserName") }, New GroupOperator(GroupOperatorType.And, New BinaryOperator("ApplicationName", ApplicationName, BinaryOperatorType.Equal), New BinaryOperator("UserName", String.Format("%{0}%", userNameToMatch), BinaryOperatorType.Like), New ContainsOperator("Roles", New BinaryOperator("RoleName", roleName, BinaryOperatorType.Equal))))
+            Dim criteria As CriteriaOperator = CriteriaOperator.Parse("ApplicationName = ? and contains(UserName, ?) and Roles[RoleName = ?]", ApplicationName, userNameToMatch, roleName)
+            Dim xpvUsers As New XPView(session, GetType(XpoUser), New CriteriaOperatorCollection() From {OperandProperty.Parse("UserName")}, criteria)
 
             Dim usersList As New List(Of String)()
             For i As Integer = 0 To xpvUsers.Count - 1
