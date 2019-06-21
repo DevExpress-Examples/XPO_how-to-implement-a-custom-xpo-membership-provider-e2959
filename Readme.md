@@ -1,4 +1,7 @@
 # How to implement a custom XPO Membership Provider
+<!-- run online -->
+**[[Run Online]](https://codecentral.devexpress.com/e2959/)**
+<!-- run online end -->
 
 
 <p>The example is based on a couple of articles regarding custom Membership and Roles provider implementation using the XPO framework. The XPO framework has a great advantage, allowing you to store objects in different databases. The example demonstrates some basic implementation of a custom membership provider. There are some known issues with the example, and we plan to improve it in future.</p><p>Each version of the example will have some description about its main features, or known limitations.</p><p><strong>See also:</strong><br />
